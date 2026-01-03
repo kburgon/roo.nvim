@@ -19,7 +19,7 @@ function M.setup()
 			return
 		end
 
-	end, { nargs = "2", desc = "Set buffer to index" })
+	end, { nargs = "+", desc = "Set buffer to index" })
 
 	vim.api.nvim_create_user_command("RooJump", function (cmd)
 		lazy_load_utils()

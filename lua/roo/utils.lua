@@ -35,6 +35,36 @@ function M.set(index, buffer)
 	return true
 end
 
+function M.jump(index)
+	ensure_collection()
 
+	local collection = vim.g.buffer_collection
+	local bufnr = collection[index]
+
+	if bufnr == nil then
+		print(string.format("No buffer assigned: %d", index))
+		vim.notify(
+			string.format("No buffer assigned to index %d", index),
+			vim.log.levels.WARN
+		)
+
+		return false
+	end
+
+	if not vim.api.nvim_buf_is_valid(bufnr) then
+		print('y')
+		vim.notify(
+			string.format("Buffer %d at index %d is no longer valid", bufnr, index),
+				vim.log.levels.ERROR
+		)
+
+		collection[index] = nil
+		vim.g.buffer_collection = collection
+		return false
+	end
+
+	vim.api.nvim_set_current_buf(bufnr)
+	return true
+end
 
 return M

@@ -67,4 +67,41 @@ function M.jump(index)
 	return true
 end
 
+function M.list()
+	ensure_collection()
+
+	local collection = vim.g.buffer_collection
+	local indices = {}
+
+	-- Collect all indices
+	for idx, _ in ipairs(collection) do
+		table.insert(indices, idx)
+	end
+
+	if #indices == 0 then
+		vim.notify("No buffers in collection", vim.log.levels.INFO)
+		return
+	end
+
+	-- Sort indices
+	table.sort(indices)
+
+	-- Display the collection
+	local lines = {"Buffer Collection:"}
+	for _, idx in ipairs(indices) do
+		local bufnr = collection[idx]
+		if vim.api.nvim_buf_is_valid(bufnr) then
+			local bufname = vim.api.nvim_buf_get_name(bufnr)
+			if bufname == "" then
+				bufname = "[No Name]"
+			end
+			table.insert(lines, string.format("  [%d] -> Buffer %d: %s", idx, bufnr, bufname))
+		else
+			table.insert(lines, string.format("  [%d] -> Invalid buffer", idx))
+		end
+	end
+
+	vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
+end
+
 return M

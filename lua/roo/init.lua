@@ -35,7 +35,7 @@ function M.setup()
 
 	vim.api.nvim_create_user_command("RooList", function ()
 		lazy_load_utils()
-		-- TODO: Call util func to list all indexed buffers
+		utils.list()
 	end, { desc = "List all indexed buffers"})
 end
 

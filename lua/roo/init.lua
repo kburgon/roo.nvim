@@ -8,7 +8,7 @@ local function lazy_load_utils()
 end
 
 function M.setup()
-	vim.ap.nvim_create_user_command("RooSet", function (cmd)
+	vim.api.nvim_create_user_command("RooSet", function (cmd)
 		lazy_load_utils()
 		local args = vim.split(cmd.args, " ", { trimempty = true })
 		local index = tonumber(args[1])

@@ -12,6 +12,12 @@ Using Lazy:
 }
 ```
 
+In addition, the following line will need to be added to init.lua or another config file:
+
+```lua
+require("roo").setup()
+```
+
 ## Usage
 
 The following vim commands are available for use:

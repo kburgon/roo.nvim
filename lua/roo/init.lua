@@ -1,7 +1,15 @@
+local utils = {}
 local M = {}
+
+local function lazy_load_utils()
+	if utils == {} or utils == nil then
+		utils = require("roo.utils")
+	end
+end
 
 function M.setup()
 	vim.ap.nvim_create_user_command("RooSet", function (cmd)
+		lazy_load_utils()
 		local args = vim.split(cmd.args, " ", { trimempty = true })
 		local index = tonumber(args[1])
 		local bufnr = args[2] and tonumber(args[2]) or nil
@@ -11,10 +19,10 @@ function M.setup()
 			return
 		end
 
-		-- TODO: Call util func to set the buffer mapping
 	end, { nargs = "2", desc = "Set buffer to index" })
 
 	vim.api.nvim_create_user_command("RooJump", function (cmd)
+		lazy_load_utils()
 		local index = tonumber(cmd.args)
 
 		if not index then
@@ -26,6 +34,7 @@ function M.setup()
 	end, { nargs = 1, desc = "Jump to indexed buffer" })
 
 	vim.api.nvim_create_user_command("RooList", function ()
+		lazy_load_utils()
 		-- TODO: Call util func to list all indexed buffers
 	end, { desc = "List all indexed buffers"})
 end
